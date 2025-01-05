@@ -35,4 +35,18 @@ In 4.sql, retrieve all fields from the table simple_books with the author 'Marga
 
 In 5.sql, retrieve all fields from the table fruit_stand for the fruits 'apple' and 'orange'.
 
-In 6.sql, retrieve all fields from the table simple_authors with author's born between 1920 and 1940.
+In 6.sql, retrieve all fields from the table simple_authors with author's born between 1920 and 1940.# Hand-in
+
+Test your solution by executing the following command on the bash terminal:
+
+```shell
+$ pytest
+```
+
+When you are satisified, execute the following commands to submit:
+
+```shell
+$ git add -A
+$ git commit -m 'submit'
+$ git push
+```
