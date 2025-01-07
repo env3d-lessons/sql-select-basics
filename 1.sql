@@ -1,0 +1,1 @@
+select * from simple_books where title = 'The Hobbit'
