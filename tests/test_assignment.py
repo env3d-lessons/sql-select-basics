@@ -5,6 +5,7 @@ import re
 def test_sql_1_sql():
   result = os.popen(f'sqlite3 *.db < 1.sql | md5sum').read()
   expected = os.popen(f'cat tests/1.sql.md5').read()
+  print(result, expected)
   assert result == expected
 
     
