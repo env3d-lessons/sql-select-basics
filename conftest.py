@@ -1,3 +1,7 @@
+
+# Configure tests so that they can be automatically submitted to the 
+# LTI platform after execution.
+
 import os
 import json
 import urllib.request
@@ -103,3 +107,4 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
     except Exception as e:
         terminalreporter.write_line(f"Status:     Network/Script Error ({e})")
         terminalreporter.write_sep("=", "Grade Submission Failed", red=True)
+
