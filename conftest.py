@@ -57,13 +57,13 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
     errors = len(terminalreporter.stats.get("error", []))
     total = passed + failed + errors
 
-    grade = round((passed / total), 2) if total > 0 else 0.0
+    grade = (round((passed / total), 2) if total > 0 else 0.0) * 100
 
     # 4. Construct payload
     payload = {
         "contextCode": context_code,
         "grade": grade,
-        "comment": f"Automated submission from {repo_url} ({passed}/{total} tests passed)"
+        "comment": f"Automated submission from <a target='_blank' href='{repo_url}'>{repo_url}</a> ({passed}/{total} tests passed)"
     }
 
     worker_url = "https://test.jmadar.workers.dev/update-grade"
@@ -79,7 +79,10 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
         req = urllib.request.Request(
             worker_url,
             data=data,
-            headers={"Content-Type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                "User-Agent": "pytest-lti-bridge"  # <-- Added User-Agent header
+            },
             method="POST"
         )
         
@@ -94,7 +97,7 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
     except urllib.error.HTTPError as e:
         error_body = e.read().decode("utf-8") if e.fp else ""
         terminalreporter.write_line(f"Status:     HTTP Error {e.code} - {e.reason}")
-        terminalreporter.write_line(f"Response:   error_body")
+        terminalreporter.write_line(f"Response:   {error_body}")  # <-- Fixed string interpolation
         terminalreporter.write_sep("=", "Grade Submission Failed", red=True)
 
     except Exception as e:
